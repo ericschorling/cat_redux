@@ -1,28 +1,41 @@
-import {ACTION_NAP, ACTION_EAT, ACTION_PLAY } from '../actionsTypes'
+import {ACTION_SET_ACTIVITY, ACTION_SET_NAME, ACTION_ADD_ANIMAL, ACTION_CHANGE_LIST } from '../actionsTypes'
 
 
 const initialState = {
-    activity: "napping"
+    name:'Guster',
+    activity: "blep",
+    animals:[]
 }
 
 const activityReducer = (state = initialState, action)=>{
     switch(action.type) {
-        case ACTION_NAP: {
+        case ACTION_SET_ACTIVITY: {
             return {
                 ...state,
-                activity: 'napping',
-            };
-        }
-        case ACTION_EAT: {
-            return {
-                ...state,
-                activity:"eating",
+                activity: action.payload.activity
             }
         }
-        case ACTION_PLAY: {
+        case ACTION_SET_NAME: {
             return {
                 ...state,
-                activity: "playing"
+                name: action.payload.name
+            }
+        }
+        case ACTION_ADD_ANIMAL: {
+            const {name, activity} = action.payload.animal
+            return {
+                ...state,
+                animals: [...state.animals, action.payload.animal]
+            }
+        }
+        case ACTION_CHANGE_LIST: {
+            const {id, activity} = action.payload
+            console.log(id)
+            let newArr = [...state.animals]
+            newArr[id] = {...newArr[id], action: activity}
+            return{
+                ...state,
+                animals: newArr
             }
         }
         default:
